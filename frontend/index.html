@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Time & Activity Tracker</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <h1>Time &amp; Activity Tracker</h1>
+  </header>
+
+  <main class="app-main">
+    <section class="panel" aria-labelledby="entry-form-heading">
+      <div class="panel-header">
+        <h2 id="entry-form-heading">Time entry</h2>
+        <p id="form-mode-label" class="form-mode">Create new entry</p>
+      </div>
+
+      <form id="entry-form" novalidate>
+        <input type="hidden" id="entry-id" />
+
+        <div class="form-grid">
+          <div class="form-field">
+            <label for="date">Date<span class="required">*</span></label>
+            <input type="date" id="date" name="date" required />
+            <p class="field-error" data-error-for="date"></p>
+          </div>
+
+          <div class="form-field">
+            <label for="person">Person<span class="required">*</span></label>
+            <input type="text" id="person" name="person" required />
+            <p class="field-error" data-error-for="person"></p>
+          </div>
+
+          <div class="form-field">
+            <label for="team">Team<span class="required">*</span></label>
+            <input type="text" id="team" name="team" required />
+            <p class="field-error" data-error-for="team"></p>
+          </div>
+
+          <div class="form-field">
+            <label for="category">Category<span class="required">*</span></label>
+            <select id="category" name="category" required>
+              <option value="">Select category</option>
+              <option value="Development">Development</option>
+              <option value="Meetings">Meetings</option>
+              <option value="Support">Support</option>
+              <option value="Research">Research</option>
+              <option value="Administration">Administration</option>
+            </select>
+            <p class="field-error" data-error-for="category"></p>
+          </div>
+
+          <div class="form-field">
+            <label for="duration">Duration (minutes)<span class="required">*</span></label>
+            <input type="number" id="duration" name="duration" min="1" step="1" required />
+            <p class="field-error" data-error-for="duration"></p>
+          </div>
+
+          <div class="form-field form-field--full">
+            <label for="activity">Activity<span class="required">*</span></label>
+            <textarea id="activity" name="activity" rows="2" required></textarea>
+            <p class="field-error" data-error-for="activity"></p>
+          </div>
+
+          <div class="form-field form-field--full">
+            <label for="notes">Notes</label>
+            <textarea id="notes" name="notes" rows="2"></textarea>
+            <p class="field-error" data-error-for="notes"></p>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" id="save-button" class="btn primary">Save</button>
+          <button type="button" id="reset-button" class="btn secondary">Reset</button>
+          <button type="button" id="cancel-edit-button" class="btn link" hidden>Cancel edit</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="panel" aria-labelledby="entries-heading">
+      <div class="panel-header">
+        <div>
+          <h2 id="entries-heading">Entries</h2>
+          <p class="panel-subtitle">View and filter everyone&apos;s time entries</p>
+        </div>
+      </div>
+
+      <section class="filters" aria-label="Filters">
+        <div class="filters-grid">
+          <div class="form-field">
+            <label for="filter-date">Date</label>
+            <input type="date" id="filter-date" />
+          </div>
+          <div class="form-field">
+            <label for="filter-person">Person</label>
+            <input type="text" id="filter-person" placeholder="e.g. Jane Doe" />
+          </div>
+          <div class="form-field">
+            <label for="filter-team">Team</label>
+            <input type="text" id="filter-team" placeholder="e.g. Engineering" />
+          </div>
+        </div>
+        <div class="filters-actions">
+          <button type="button" id="apply-filters" class="btn secondary">Apply filters</button>
+          <button type="button" id="clear-filters" class="btn link">Clear filters</button>
+        </div>
+      </section>
+
+      <div id="global-message" class="global-message" role="status" aria-live="polite"></div>
+
+      <div class="table-wrapper" aria-live="polite">
+        <table class="entries-table">
+          <thead>
+            <tr>
+              <th scope="col">Date</th>
+              <th scope="col">Person</th>
+              <th scope="col">Team</th>
+              <th scope="col">Activity</th>
+              <th scope="col">Category</th>
+              <th scope="col">Duration (min)</th>
+              <th scope="col">Notes</th>
+              <th scope="col" class="col-actions">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="entries-body">
+            <tr>
+              <td colspan="8" class="placeholder">Loading entries…</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    window.API_BASE_URL = window.API_BASE_URL || 'http://localhost:8000/api';
+  </script>
+  <script src="/app.js"></script>
+</body>
+</html>
